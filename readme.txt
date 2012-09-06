@@ -57,3 +57,6 @@ http://clique-ast.com/exercises/test3.html
 Ajax練習
 http://clique-ast.com/exercises/test6.html
 
+
+これからgitを練習するよ！
+これはtestで変更したよ

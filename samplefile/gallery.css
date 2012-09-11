@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+/***********************
+ gallery.js
+***********************/
+
+div#gallery {
+	position: relative;
+	margin: 0 auto;
+}
+
+	div#gallery .text_box {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background-color: rgba(255,255,255,0.7);
+	}

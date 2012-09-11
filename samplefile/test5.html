@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>javascript練習</title>
+<script src="../js/jquery-1.7.1.min.js"></script>
+<link rel="stylesheet" href="../css/reset.css" type="text/css">
+<script type="text/javascript">
+$(function(){
+	var target = $('#gallery');
+	var photo = target.children('img');
+	//imgにdataをふる
+	var photo_n = 1;
+	photo.each(function(){
+		$(this).data('photo_n',photo_n).attr('data-photo_n',photo_n);
+		photo_n++;
+	});
+	
+	
+	//アニメーション用のdiv生成
+	//targetの幅割る10の幅を入れる
+	var i_w = (target.width())/10;
+	var i_h = target.height();
+	//10個のdivを作成
+	for(var i = 0; i < 10; i++){
+		var w = (i_w * i)+'px';
+		//target内に入れる
+		target.append('<div class="slice" style="position:absolute;top:0;left:'+w+';width:'+i_w+'px;height:100%;opacity:1;background-repeat:no-repeat;background-position:-'+w+' 0;background-color:white;background-image:url(images/1.jpg);"></div>');
+	}
+	
+
+	//トータル数を取る
+	var total = photo.length;
+
+	//galleryにdateを入れる
+	target.data('index',1);
+	
+	//indexを呼び出す
+	var index = parseInt(target.data('index'));
+	
+	//prevをクリックしたときの処理
+	$('#prev').click(function(){
+		//1枚目だったら
+		old = index;
+		index = (index <= 1 ? total: index -1);
+		setGallery(index, old);
+	});
+	
+	//nextをクリックしたときの処理
+	$('#next').click(function(){
+		old = index;
+		index = (index >= total ? 1 : index +1);
+		setGallery(index, old);
+	});
+
+	//サムネイル自動生成
+	$('#gallery_list').html('<ul></ul>');
+	photo.each(function(){
+		$(this).clone().appendTo($('#gallery_list ul')).wrap('<li></li>').load(function(){
+			var thumb_img_width = $(this).width();
+			var thumb_width = $(this).parent('li').width();
+			var fit_width = (thumb_img_width - thumb_width) / 2;
+			$(this).css('left', -fit_width);
+		});
+	});
+	
+	var thum_list = $('#gallery_list li');
+		
+	//クリックした時の処理
+	var loading = true;
+	thum_list.click(function(){
+		old = index;
+		index = $(this).children().data('photo_n');
+		setGallery(index, old);
+	});
+	
+	//自動再生
+	var timerId;
+	$('#play').toggle(
+		function(){
+			timerId = setInterval(function(){
+				old = index;
+				index = (index >= total ? 1 : index +1);
+				setGallery(index,old);
+			},4000)
+			$(this).text('stop');
+		},
+		function(){
+			clearInterval(timerId);
+			$(this).text('play');
+		}
+	);
+	
+	//画像切り替えの処理
+	function setGallery(index, old){
+		//gallery_listにクラスをつける
+		thum_list.removeClass('select');
+		thum_list.eq(index-1).addClass('select');
+		//backgroundを今の画像にする
+		target.css('background-image', 'url(images/'+old+'.jpg)');
+		var slice = $('.slice');
+		
+		//左横から右順々に切り替わる
+		/*slice.css({
+			'background-image':'url(images/'+index+'.jpg)',
+			'opacity':0,
+			'width':0
+		});
+		for(var n = 0;n < 10;n++){
+			slice.eq(n).delay(100*n).animate(
+				{opacity: 1, width: i_w+'px'},
+				{duration: 'slow', easing: 'linear'}
+			);
+		}*/
+		
+		//上から下へ順々に切り替わる
+		slice.css({
+			'background-image':'url(images/'+index+'.jpg)',
+			'opacity':0,
+			'height':0
+		});
+		for(var n = 0;n < 10;n++){
+			slice.eq(n).stop(false,false).delay(100*n).animate(
+				{height: '100%', opacity: 1},
+				{duration: 'slow', easing: 'linear'}
+			);
+		}
+		
+		//上から切り替わる
+		/*slice.css({
+			'background-image':'url(images/'+index+'.jpg)',
+			'opacity':0,
+			'height':0
+		});
+		slice.stop(false,false).animate(
+			{height: '100%', opacity: 1},
+			{duration: 'slow', easing: 'linear'}
+		);*/
+		
+		//フェードアウト
+		//sliceの画像を変える
+		/*slice.css({
+			'background-image':'url(images/'+index+'.jpg)',
+			'opacity':0
+		});
+		slice.stop(false,true).animate(
+			{height: '100%', opacity: 1},
+			{duration: 'slow', easing: 'linear'}
+		);*/
+		
+		/*photo.stop(false,true).fadeOut(300, function(){
+			$(this).attr('src', 'images/'+index+'.jpg').fadeIn(300);
+		});*/
+	}
+	
+});
+
+//http://goo.gl/tAmGa
+</script>
+<style type="text/css">
+	#wrapper {
+		width: 400px;
+		margin: 0 auto;
+	}
+
+	#gallery {
+		position: relative;
+		width: 400px;
+		height: 300px;
+		background: url(images/1.jpg) no-repeat;
+	}
+	
+		#gallery img {
+			display:none;
+		}
+	
+	#gallery_list {
+		display: box;
+		display: -webkit-box;
+	}
+		
+		#gallery_list li {
+			position: relative;
+			width: 70px;
+			height: 70px;
+			margin: 3px;
+			border: 1px solid #999;
+			text-align: center;
+			overflow: hidden;
+		}
+		
+		#gallery_list li.select {
+			border-color: red;
+		}
+		
+			#gallery_list li img {
+				position: absolute;
+				height: 70px;
+				cursor: pointer;
+			}
+	
+	#pager {
+		text-align: center;
+	}
+	
+		#pager li {
+			display: inline;
+			margin: 0 20px;
+			cursor: pointer;
+		}
+</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="gallery">
+			<img src="images/1.jpg" alt="cat1">
+			<img src="images/2.jpg" alt="cat2">
+			<img src="images/3.jpg" alt="cat3">
+			<img src="images/4.jpg" alt="cat4&mouse">
+			<img src="images/5.jpg" alt="cat5">
+		</div>
+		<ul id="pager">
+			<li id="prev">prev</li>
+			<li id="play">paly</li>
+			<li id="next">next</li>
+		</ul>
+		<div id="gallery_list">
+		</div>
+	</div>
+</body>
+</html>

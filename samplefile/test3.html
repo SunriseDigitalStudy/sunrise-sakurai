@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>javascript練習</title>
+<script src="../js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="slidGallery.js"></script>
+<link rel="stylesheet" href="../css/reset.css" type="text/css">
+
+<script type="text/javascript">
+$(function(){
+	$('#slider').slidGallery({
+		thum : $('#gallery_list li'),
+		next : $('#next'),
+		prev : $('#prev'),
+		speed : 200
+		
+	});
+});
+
+</script>
+<style type="text/css">
+	#wrapper {
+		width: 400px;
+		margin: 0 auto;
+	}
+
+	#gallery {
+		position: relative;
+		height: 400px;
+		overflow: hidden;
+	}
+	
+		#gallery ul#slider {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	
+			#gallery ul#slider li {
+				float: left;
+				width: 400px;
+				text-align: center;
+			}
+	
+	#gallery_list {
+		display: box;
+		display: -webkit-box;
+	}
+		
+		#gallery_list li {
+			width: 70px;
+			height: 70px;
+			margin: 3px;
+			border: 1px solid #999;
+			text-align: center;
+			overflow: hidden;
+		}
+		
+		#gallery_list li.select {
+			border-color: red;
+		}
+		
+			#gallery_list li img {
+				height: 70px;
+				cursor: pointer;
+			}
+	
+	#pager {
+		text-align: center;
+	}
+	
+		#pager li {
+			display: inline;
+			margin: 0 20px;
+			cursor: pointer;
+		}
+</style>
+</head>
+<body>
+	<div id="wrapper">
+		<h1>スライダー</h1>
+		<div id="gallery">
+			<ul id="slider">
+				<li>
+					<img src="images/1.jpg" alt="cat1">
+				</li>
+				<li>
+					<img src="images/2.jpg" alt="cat2">
+				</li>
+				<li>
+					<img src="images/3.jpg" alt="cat3">
+				</li>
+				<li>
+					<img src="images/4.jpg" alt="cat4">
+				</li>
+				<li>
+					<img src="images/5.jpg" alt="cat5">
+				</li>
+			</ul>
+		</div>
+		<ul id="pager">
+			<li id="prev">prev</li>
+			<li id="next">next</li>
+		</ul>
+		<ul id="gallery_list">
+			<li class="select"><img src="images/1.jpg" alt="cat1"></li>
+			<li><img src="images/2.jpg" alt="cat2"></li>
+			<li><img src="images/3.jpg" alt="cat3"></li>
+			<li><img src="images/4.jpg" alt="cat4&mouse"></li>
+			<li><img src="images/5.jpg" alt="cat5"></li>
+		</ul>
+	</div>
+</body>
+</html>

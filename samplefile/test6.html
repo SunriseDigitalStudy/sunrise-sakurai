@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>javascript練習</title>
+<script src="../js/jquery-1.7.1.min.js"></script>
+<link rel="stylesheet" href="../css/reset.css" type="text/css">
+<script type="text/javascript">
+<!--
+//test1
+//youtubeAPI
+$(function(){
+	$('#test1 form').submit(function(){
+		search($('#keyword').val());
+		return false;
+	});
+});
+	
+function search(keyword) {
+	$('#result').text('Loading・・・');
+	$.ajax({
+		dataType: "jsonp",
+		data: {
+			"vq": keyword,
+			"max-results":"10",
+			"alt":"json-in-script"
+		},
+		cache: true,
+		url: "http://gdata.youtube.com/feeds/api/videos",
+		success: function(data){
+			$('#result').empty();
+			$.each(data.feed.entry,function(i,item){
+				var group = item.media$group;
+
+				$("<a/>")
+				.attr({"href": group.media$player[0].url, "target": "_blank"})
+				.append('<img src="'+ group.media$thumbnail[0].url + '">')
+				.appendTo('#result');
+			});
+		}
+	});
+}
+
+// -->
+</script>
+<script type="text/javascript">
+<!--
+//test2
+//画像を読み込んだらフェードイン
+$(function(){
+	$('#test2 #photo').css({opacity: 0}).load(function(){
+		$(this).animate({opacity: 1},3000);
+	});
+});
+// -->
+</script>
+<script type="text/javascript">
+//test3
+//hoverするとhtmlファイルを表示
+$(function(){
+	$('#sampleBox img').load(function(){
+		var photoSize = $(this).width();
+		$('#sampleBox').width(photoSize);
+	});
+	$('#sampleBox').hover(
+		function(){
+			$(this).prepend('<div class="text" style="position:absolute;bottom:0;left:0;width:100%;background-color:rgba(255, 255, 255, 0.7);"></div>');
+			$(this).children('.text').load('test1-2.html #text1');
+		},
+		function(){
+			$('div.text').remove();
+		}
+	);
+});
+
+</script>
+<script type="text/javascript">
+//test4
+//Ajaxでページング
+$(function(){
+	getText(1);
+	var index;
+	$.ajaxSetup({cache:false});
+	$.ajax({
+		url:'test6-2.html',
+		success:function(html){
+			//totalをとる
+			var total = $(html).find('.text_body').length;
+			$('#pager li').click(function(){
+				//表示させてる番号を取得
+				var n = $('#text-body').data('index');
+				//クリックしたものが'next'か'prev'か
+				if($(this).attr('id') == 'next'){
+					//nがtotalのときはイベントが起きない
+					if(n != total){
+						index = n+1;
+						getText(index);				
+					}
+				} else if($(this).attr('id') == 'prev'){
+					//nが1のときはイベントが起きない
+					if(n != 1){
+						index = n-1;
+						getText(index);				
+					}
+				}
+			});
+		}
+	});
+	//ページを切り替えるの関数
+	function getText(index){
+		$('#text-body').load('test6-2.html #text'+index).data('index',index).attr('data-index',index);
+	}
+});
+
+</script>
+<style type="text/css">
+	.box {
+		padding: 20px;
+		margin: 20px;
+		border: 1px #999 solid;
+	}
+	img {
+		vertical-align: bottom;
+	}
+</style>
+</head>
+<body>
+<h1>Ajaxの練習</h1>
+<div id="test1" class="box">
+	<h2>[SAMPLE1] Tou Tube API</h2>
+	<form>
+	<input type="text" id="keyword">
+	<input type="submit" value="検索" id="send">
+	</form>
+	<div id="result"></div>
+</div>
+<div id="test2" class="box">
+	<h2>[SAMPLE2] $.load()</h2>
+	<img src="images/2.jpg" alt="籠入りにゃんこ♪" id="photo">
+</div>
+<div id="test3" class="box">
+	<h2>[SAMPLE3] hoverするとhtmlファイルを表示</h2>
+	<div id="sampleBox" style="position:relative;">
+		<img src="images/2.jpg" alt="籠入りにゃんこ">
+	</div>
+</div>
+<div id="test4" class="box">
+	<h2>[SAMPLE4] Ajaxでページング</h2>
+	<div id="text-body" style="" data-index="1"></div>
+	<ul id="pager">
+		<li id="prev">PREV</li>
+		<li id="next">NEXT</li>
+	</ul>
+</div>
+</body>
+</html>

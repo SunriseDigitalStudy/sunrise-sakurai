@@ -3,8 +3,7 @@
 このファイルはrebaseのためのテスト用です。
 
 
-
-
-
-
 rebaseとmargeは似てるけどheadが動くんです
+
+このテキストはbranch（test）で書いてます。
+コレをREBASEするとどうなるのか！？

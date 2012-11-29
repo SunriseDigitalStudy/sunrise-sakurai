@@ -1,2 +1,10 @@
+【rebaseを使う】
+
 このファイルはrebaseのためのテスト用です。
 
+
+
+
+
+
+rebaseとmargeは似てるけどheadが動くんです

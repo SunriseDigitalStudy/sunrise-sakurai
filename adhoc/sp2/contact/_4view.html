@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta name="robots" content="noindex,nofollow">
+    <title>ログ閲覧 - PHPメールフォーム</title>
+    <!-- ご注意: 以下のようなCSSファイルのパス、<a>タグのリンク先などは、すべてjform.phpからのパスである点にご注意ください -->
+    <link rel="stylesheet" href="_common.css" type="text/css">
+</head>
+<body>
+
+<h2>ログ閲覧</h2>
+
+<div id="main">
+
+<form action="{$FORMPATH_SELF}" method="post">
+パスワードを入力: <input type="hidden" name="{$PARAM_MODE}" value="{$MODE_VIEW}">
+<input type="password" name="{$PARAM_PASSWORD}" value="" size="10">
+<input type="submit">
+[<a href="{$FORMPATH_SELF}">メールフォームへ戻る</a>]
+</form>
+
+<hr>
+<LogRecord>
+
+<div>
+    <table boder="0">
+    <tr><td>日付:</td><td>{$logrecord_time}</td></tr>
+    <tr><td>ホスト:</td><td>{$logrecord_host}</td></tr>
+    <tr><td>User-agent:</td><td>{$logrecord_useragent}</td></tr>
+    </table>
+    <p>{$logrecord_body}</p>
+    <hr>
+</div>
+
+</LogRecord>
+
+[<a href="{$FORMPATH_SELF}">メールフォームへ戻る</a>]
+
+</div><!-- End of main -->
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+
+img.banner {
+	margin-bottom: 5px;
+}
+
+div#nav-container h3,
+div#nav-container ul.nav-link li,
+p#ippon {
+	margin: 0;
+	text-align: left;
+	 font-family: rialMT,"Hiragino Kaku Gothic ProN","ヒラギノ角ゴ ProN W3",メイリオ,sans-serif;
+	 background: -moz-linear-gradient(#FFFFFF, #2EC63C) repeat scroll 0 0 #2EC63C;
+	background: -webkit-gradient(linear, left bottom, left top, from(#2EC63C), to(#FFFFFF));
+	border: 1px solid #988B8B;
+	text-shadow: 0 1px 1px #F6F6F6;
+	cursor: pointer;
+	display: block;
+	padding: 0;
+	position: relative;
+	padding: 10px;
+	 display: block;
+}
+
+div#nav-container h3 span {
+	display:block;
+	background: url("images/icon-plus.png") no-repeat scroll 0 3px transparent;
+	padding-left: 30px;
+}
+
+div#nav-container h3.visible span {
+	background: url("images/icon-minus.png") no-repeat scroll 0 3px transparent;
+}
+
+div#nav-container h3 a {
+	text-align: left;
+}
+
+div#nav-container ul.nav-accordion {
+	margin: 15px 10px;
+}
+
+div#nav-container ul.nav-accordion li {
+	background: -moz-linear-gradient(#CECFCE, #CECFCE) repeat scroll 0 0 #CECFCE;
+	background: -webkit-gradient(linear, left bottom, left top, from(#CECFCE), to(#CECFCE));
+	border: 1px solid #988B8B;
+	color: #000000;
+	font-weight: bold;
+	text-shadow: 0 1px 1px #F6F6F6;
+	text-align:left;
+	padding-right: 10px;
+}
+
+
+div#nav-container ul.nav-accordion li a {
+	display:block;
+	padding: 11px 15px;
+	background: url("images/icon-link.png") no-repeat scroll right 10px transparent;
+}
+
+p#ippon {
+	margin-bottom: 10px;
+}
+
+
+p#ippon a {
+	display:block;
+}
+
+
+div#nav-container ul.hide {
+	display:none;
+}
+
+ul#telmail {
+	margin: 10px 5px;
+	height: 68px;
+	padding-left: 20px;
+	background: -moz-linear-gradient(#e91209, #fffefe) repeat scroll 0 0 #fffefe;
+	background: -webkit-gradient(linear, left bottom, left top, from(#e91209), to(#fffefe));
+	border: 1px solid #988b8b;
+	border-radius: 20px;
+
+
+}
+
+ul#telmail li {
+	margin: 10px 0;
+}
+
+div.ui-loader {
+	display: none;
+}
+
+div#nav-container h3 span.on {
+	background: url("images/icon-minus.png") no-repeat scroll 0 3px transparent;
+} 

@@ -1,0 +1,94 @@
+@charset "UTF-8"; /* 雀の往来 */
+
+/******************
+base
+*******************/
+
+body{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+}
+
+div#wrapper {
+	width: 100%;
+	text-align: center;
+}
+
+section img,
+section a {
+	display: block;
+	margin: 0 auto;
+}
+
+div#wrapper header,
+div#wrapper footer,
+section div#btn-top {
+	width: 320px;
+	margin: 0 auto;
+}
+
+div#wrapper header,
+div#wrapper footer {
+	background-color: transparent;
+	background-repeat: repeat-x;
+	background-position: 0 0;
+}
+
+/******************
+common
+*******************/
+
+/******************
+main
+*******************/
+
+/* #header  */
+
+header#header {
+	overflow: hidden;
+	background-image: url(/sp2/img/lp/header-back.gif);
+}
+
+header#header h1 {
+	float: left;
+	margin: 0;
+}
+
+header#header p {
+	float: right;
+	margin: 0;
+}
+
+section {
+	clear: both;
+}
+
+/* tell */
+
+section a.tell {
+	width: 320px;
+	margin: 10px auto;
+}
+
+/* btn */
+
+section a#btn {
+	display: block;
+	width: 188px;
+	height: 45px;
+}
+
+/* footer */
+
+footer#footer {
+	background-image : url(/sp2/img/lp/footer-back.gif);
+}
+
+footer#footer p {
+	margin: 10px 0 0 0;
+	padding: 10px 5px;
+	color: #ffffff;
+	font-size: 88%;
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>javascript練習[スマホ用ギャラリー]</title>
+<script src="../js/jquery-1.7.1.min.js"></script>
+<link rel="stylesheet" href="../css/reset.css" type="text/css">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<style type="text/css">
+html,body {
+	background-color: #222;
+}
+
+#wrapper {
+	width: 100%;
+}
+
+/* pager */
+
+ul.photo-pager {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	display: box;
+	display: -webkit-box;
+	opacity: 0.7;
+	background-color: #000;
+}
+
+	ul.photo-pager li:not(.link-list) {
+		box-flex: 1;
+		-webkit-box-flex: 1;
+		margin: 10px;
+	}
+
+	ul.photo-pager li.btn {
+		border-radius: 2px;
+		-webkit-border-radius: 2px;
+		background-color: #696969;
+		font-size: 14px;
+		font-weight: bold;
+		line-height: 42px;
+	}
+
+	ul.photo-pager li.link-list {
+		width: 145px;
+		margin: 10px 0;
+	}
+
+		ul.photo-pager li a,
+		ul.photo-pager li span {
+			display: block;
+			color: #fff;
+		}
+
+
+/* gallery */
+		
+.header {
+	display: box;
+	display: -webkit-box;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: #000;
+	color: #fff;
+	opacity: 0.7;
+}
+
+.parts {
+	display: none;
+}
+.active .parts {
+	display: block;
+}
+
+.title {
+	padding: 10px 0 10px 10px;
+	box-flex: 2;
+	-webkit-box-flex: 2;
+}
+
+.image {
+	position: absolute;
+	z-index: -9999;
+}
+
+.image.current {
+	opacity: 1;
+}
+
+.image.prev {
+	opacity: 0;
+}
+
+.image.next {
+	opacity: 0;
+}
+
+	.image img {
+		width: 100%;
+		height: 100%;
+	}
+
+.link {
+	text-align: right;
+	box-flex: 1;
+	-webkit-box-flex: 1;
+}
+
+	.link a {
+		display: block;
+		padding: 15px 22px 15px 10px;
+		background-size: 12px 13px;
+		-webkit-background-size: 12px 13px;
+		color: #fff;
+		font-size: 14px;
+	}
+</style>
+<script type="text/javascript">
+	//http://www.webopixel.net/javascript/203.html
+	//javascript1
+	//メディアサイズに合わせて大きさ変更
+$(function(){
+	//初期準備
+	$(".imageContainer").after('<div class="uilayer" style="position:absolute;top:0;left:0;"></div>');
+	//画像の元サイズを取得
+	var n_image = $('.image.next img');
+	var p_image = $('.image.prev img');
+	var c_image = $('.current img');	
+	var cimgW;
+	var cimgH;
+	var nimgW;
+	var nimgH;
+	var pimgW;
+	var pimgH;
+	
+	$(c_image).bind("load",function(){
+			var target = $(this);
+			var cimg = new Image();
+			cimg.src = target.attr("src");
+			cimgW = cimg.width;
+			cimgH = cimg.height;
+			setSize(cimgW,cimgH,target.parent());
+	});
+		
+	$(p_image).bind("load",function(){
+			var target = $(this);
+			var pimg = new Image();
+			pimg.src = target.attr("src");
+			pimgW = pimg.width;
+			pimgH = pimg.height;
+			setSize(pimgW,pimgH,target.parent());
+	});
+		
+	$(n_image).bind("load",function(){
+			var target = $(this);
+			var nimg = new Image();
+			nimg.src = target.attr("src");
+			nimgW = nimg.width;
+			nimgH = nimg.height;
+			setSize(nimgW,nimgH,target.parent());
+	});
+	
+	$(window).bind("resize", function(){
+		setSize(cimgW,cimgH,$('.current'));
+		setSize(pimgW,pimgH,$('.image.prev'));
+		setSize(nimgW,nimgH,$('.image.next'));
+	});
+
+	function setSize(imgW,imgH,target){
+
+		//windowのサイズ取得
+		var mw = $(window).width();
+		var mh = $(window).height();
+		
+		var ratioW = mw / imgW;
+		var ratioH = mh / imgH;
+
+		//比率が小さいほうを取得
+		var fixSelect = Math.min(ratioH, ratioW);
+		//元画像より小さかったら縮小
+		if(fixSelect < 1){
+			//画像の大きさを代入
+			var setW = imgW *fixSelect;
+			var setH = imgH * fixSelect;
+		}else{
+			var setW = imgW;
+			var setH = imgH;
+		}
+		//センタリング
+		var moveX = Math.floor((mw - setW)/2);
+		var moveY = Math.floor((mh - setH)/2);
+		
+		target.css({
+			"width": setW,
+			"height": setH,
+			"top": moveY,
+			"left": moveX
+		});
+		
+		$(".uilayer").css({
+			"width": mw,
+			"height": mh
+		});
+	}
+	
+	//タッチでメニューを表示させる
+	$(".uilayer").click(displayMenu);
+	
+	function displayMenu(){
+		$("#wrapper").toggleClass("active");
+	}
+	
+	//次と前で表示divのopacityを切り替える
+	//画像の入ってるdiv.imageをprevは最後尾を消して先頭を増やす、nextはその逆
+	$(".pager").click(function(){
+		if($(this).hasClass("prev")){
+			$('.current').removeClass("current").addClass("next");
+			$('.image:last').remove();
+			$('.image:first').before('<div class="image prev"><img src="images/4.jpg" alt=""></div>');
+			$('.image:eq(1)').removeClass("prev").addClass("current");
+		}else{
+			$('.current').removeClass("current").addClass("prev");
+			$(".image:first").remove();
+			$('.image:last').after('<div class="image next"><img src="images/4.jpg" alt=""></div>');
+			$('.image:eq(1)').removeClass("next").addClass("current");
+		}
+	});
+	
+	//http://couloir.org/js_slideshow/
+
+	//javascript2
+	//リンク移動しないようにajaxを使う
+});
+
+</script>
+</head>
+
+<body>
+	<div id="wrapper" class="active">
+		<div class="imageContainer">
+			<div class="image prev"><img src="images/2.jpg" alt=""></div>
+			<div class="image current"><img src="images/1.jpg" alt=""></div>
+			<div class="image next"><img src="images/6.jpg" alt=""></div>
+		</div>
+		<div class="parts">
+			<div class="header">
+				<h1 class="title">01/18<br>良い天気だね(^O^)</h1>
+				<p class="link"><a href="/sp/shop/rirekisyo/diary/61423?diary_id=457402">この記事を見る</a></p>
+			</div>
+		</div>
+		<div class="parts">
+			<ul class="photo-pager">
+				<li class="btn">
+					<span class="pager prev">次の写真</span>
+				</li>
+				<li class="btn link-list">
+					<a class="list" href="">2013年01月一覧</a>
+				</li>
+				<li class="btn">
+					<span class="pager next">前の写真</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

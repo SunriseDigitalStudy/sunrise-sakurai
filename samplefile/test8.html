@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>css3アニメーション練習</title>
+<script src="../js/jquery-1.7.1.min.js"></script>
+<link rel="stylesheet" href="../css/reset.css" type="text/css">
+<style type="text/css">
+
+/* canvas */
+#canvas {
+	background: yellow;
+	margin-bottom: 50px;
+}
+
+/* animation */
+
+#animation_container {
+	position: relative;
+	width: 550px;
+	height: 200px;
+	background: url(images/bg-animation.png) 0 9px no-repeat;
+}
+
+#animation1 {
+	position: absolute;
+	top: 0;
+	left: 10px;
+	width: 180px;
+	height: 57px;
+	background: url(images/animation1.png) no-repeat;
+	animation: anime1 3s liner 0 infinite;
+	-webkit-animation: anime1 3s linear 0 infinite;
+	-moz-animation: anime1 3s linear 0 infinite;
+}
+
+@keyframes anime1 {
+	0% {background-position: -35px 0;}
+	100% {background-position: 180px 0;}
+}
+
+@-webkit-keyframes anime1 {
+	0% {background-position: -48px 0;}
+	100% {background-position: 180px 0;}
+}
+
+@-moz-keyframes anime1 {
+	0% {background-position: -48px 0;}
+	100% {background-position: 180px 0;}
+}
+
+#animation2 {
+	position: absolute;
+	top: 0;
+	left: 267px;
+	width: 100px;
+	height: 108px;
+	background: url(images/animation2.png) no-repeat -48px 0;
+	animation: anime2 3s cubic-bezier(0.5, 0, 0.9, 1.0) 3s infinite;
+	-webkit-animation: anime2 3s cubic-bezier(0.5, 0, 0.9, 1.0) 3s infinite;
+	-moz-animation: anime2 3s cubic-bezier(0.5, 0, 0.9, 1.0) 3s infinite;
+}
+
+#animation2.red {
+	background-image: url(images/animation2.png);
+}
+
+#animation2.blue {
+	background-image: url(images/animation3.png);
+}
+
+#animation2.yellow {
+	background-image: url(images/animation4.png);
+}
+
+@keyframes anime2 {
+	0%{background-position: -60px 0;}
+	50%{background-position: 0px 0;}
+	100%{background-position: 22px 108px;}
+}
+
+@-webkit-keyframes anime2 {
+	0%{background-position: -60px 0;}
+	50%{background-position: 0px 0;}
+	100%{background-position: 22px 108px;}
+}
+
+@-moz-keyframes anime2 {
+	0%{background-position: -60px 0;}
+	50%{background-position: 0px 0;}
+	100%{background-position: 22px 108px;}
+}
+
+#animation3 {
+	position: absolute;
+	top: 124px;
+	left: 344px;
+	width: 180px;
+	height: 57px;
+	background: url(images/animation5.png) no-repeat -48px 0;
+	animation: anime3 3s liner 6s infinite;
+	-webkit-animation: anime3 3s linear 6s infinite;
+	-moz-animation: anime3 3s liner 6s infinite;
+}
+
+#animation3.red {
+	background-image: url(images/animation5.png);
+}
+
+#animation3.blue {
+	background-image: url(images/animation6.png);
+}
+
+#animation3.yellow {
+	background-image: url(images/animation7.png);
+}
+
+@keyframes anime3 {
+	0% {background-position: -48px 0;}
+	100% {background-position: 180px 0;}
+}
+
+@-webkit-keyframes anime3 {
+	0% {background-position: -48px 0;}
+	100% {background-position: 180px 0;}
+}
+
+@-moz-keyframes anime3 {
+	0% {background-position: -48px 0;}
+	100% {background-position: 180px 0;}
+}
+
+.btn {
+	position: absolute;
+	top: 0;
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	cursor: pointer;
+}
+
+#red {
+	left: 380px;
+	background-color: #ff9db6;
+}
+
+#blue {
+	left: 410px;
+	background-color: #72b4ff;
+}
+
+#yellow {
+	left: 440px;
+	background-color: #ffe87e;
+}
+
+</style>
+<script type="text/javascript">
+$(function(){
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext('2d');
+	context.beginPath();
+	
+	context.fillRect(30,30,100,50);
+	
+	$('.btn').click(function(){
+		$('#animation2,#animation3').removeClass().addClass($(this).attr('id'));
+	});
+});
+</script>
+</head>
+
+<body>
+
+<div id="wrapper">
+	<canvas id="canvas"></canvas>
+	
+	<div id="animation_container">
+		<div id="animation1"></div>
+		<div id="animation2"></div>
+		<div id="animation3"></div>
+		<div id="red" class="btn"></div>
+		<div id="blue" class="btn"></div>
+		<div id="yellow" class="btn"></div>
+	</div>
+</div>
+
+</body>
+</html>
